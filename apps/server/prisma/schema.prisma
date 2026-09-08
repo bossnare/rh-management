@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client" // no "*-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum UserRole {
+  USER  @map("user")
+  ADMIN @map("admin")
+  DEV   @map("dev")
+}
+
+// Model
+// model Profile {
+//   id          String    @id @default(uuid())
+//   email       String    @unique
+//   username    String?   @unique
+//   role        UserRole  @default(USER)
+//   displayName String?   @map("display_name")
+//   avatarUrl   String?   @map("avatar_url")
+//   themeMode   String    @default("dark") @map("theme_mode")
+//   createdAt   DateTime  @default(now()) @map("created_at")
+//   updatedAt   DateTime? @updatedAt() @map("updated_at")
+
+//   @@map("profiles")
+// }

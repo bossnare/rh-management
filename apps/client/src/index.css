@@ -1,0 +1,89 @@
+@import './styles/themes.css';
+@import './styles/tiptap.css';
+
+@layer base {
+  body {
+    /* overscroll-none overflow-hidden */
+    @apply relative font-sans;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  html,
+  body {
+    @apply scroll-smooth;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply leading-none tracking-tight;
+  }
+  button {
+    @apply select-none;
+  }
+
+  button,
+  a,
+  [role='button'] {
+    @apply cursor-pointer touch-manipulation;
+  }
+
+  /* util for disable transition logic on @/components/theme-provider.tsx */
+  html.disable-transition * {
+    transition: none !important;
+  }
+
+  #home-screen-icon {
+    animation: scale-bump 2s ease both infinite;
+  }
+
+  @keyframes scale-bump {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0.9);
+    }
+    50% {
+      transform: scale(0.8);
+    }
+  }
+}
+
+@layer utilities {
+  .scrollbar-none::-webkit-scrollbar {
+    display: none !important;
+  }
+  .scroll-touch {
+    -webkit-overflow-scrolling: touch;
+  }
+  .bottom-keyboard-height {
+    bottom: var(--keyboard-height);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .fixed-center {
+    @apply -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2;
+  }
+  .fixed-center-x {
+    @apply -translate-x-1/2 left-1/2;
+  }
+  .fixed-center-y {
+    @apply -translate-y-1/2 top-1/2;
+  }
+}

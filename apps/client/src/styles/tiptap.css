@@ -1,0 +1,58 @@
+/* for EditorContent-tiptap */
+.tiptap {
+  @apply leading-relaxed min-h-16 text-foreground;
+}
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+}
+.tiptap ul {
+  margin-top: 0;
+}
+.tiptap:focus {
+  outline: none;
+}
+.tiptap p.is-editor-empty:first-child:before {
+  content: attr(data-placeholder);
+  color: var(--color-muted-foreground);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  @apply text-[16px];
+}
+.tiptap h2 {
+  @apply font-medium;
+}
+
+.tiptap p {
+  @apply leading-8 m-0;
+}
+
+.tiptap ul li::marker {
+  color: var(--color-foreground);
+}
+
+.tiptap pre {
+  @apply rounded-3xl relative;
+}
+
+.tiptap pre code {
+  caret-color: var(--color-muted-foreground);
+}
+.tiptap pre code::after {
+  content: 'copy';
+  @apply rounded-xl p-1.5 bg-sidebar text-foreground absolute top-2 text-sm right-2 cursor-pointer;
+}
+
+.tiptap blockquote {
+  @apply border-0 relative text-foreground/80;
+}
+.tiptap blockquote::before {
+  content: '';
+  @apply absolute left-0 bg-muted h-full w-1 rounded-full;
+}
+
+.tiptap a {
+  @apply text-chart-2 active:scale-99;
+}
