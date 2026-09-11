@@ -24,7 +24,7 @@ import { RecentNotes } from '../features/notes/components/RecentNotes';
 import { TaskWrap } from '../features/tasks/components/TaskWrap';
 import { ConfirmDialog } from '../features/ui/ConfirmDialog';
 import { ConfirmDrawer } from '../features/ui/ConfirmDrawer';
-import { OverviewToolbar } from '../features/ui/OverviewToolbar';
+import { HomeToolbar } from '../features/ui/HomeToolbar';
 import { SortingDrawer } from '../features/ui/SortingDrawer';
 import { ToolbarButton as SelectionModeToolbarButton } from '../features/ui/ToolbarButton';
 import {
@@ -35,7 +35,7 @@ import {
 import { useSelectionManager } from '../hooks/use-selection-manager';
 import { cn } from '../lib/utils';
 
-function Overview() {
+function Home() {
   const useHomeNoteApi = useHomeNote();
   const { recent, pinned } = useHomeNoteApi.data ?? {
     recent: [],
@@ -54,7 +54,7 @@ function Overview() {
   const allPinned =
     selectedNotes.length > 0 && selectedNotes.every((n) => n.pinned);
 
-  const buttonXSize = useButtonSize({ mobile: 'icon-xl', landscape: 'icon' });
+  const buttonXSize = useButtonSize({ mobile: 'icon-lg', landscape: 'icon' });
   const buttonToggleSelectAllSize = useButtonSize({
     mobile: 'icon-lg',
     landscape: 'icon',
@@ -267,7 +267,7 @@ function Overview() {
                     </motion.div>
                   ) : (
                     <div className="flex items-center justify-end">
-                      <OverviewToolbar
+                      <HomeToolbar
                         toggleOpenNoteSorting={toggleOpenNoteSorting}
                         openSelectionMode={() =>
                           selection.openSelectionMode('multiple')
@@ -346,4 +346,4 @@ function Overview() {
   );
 }
 
-export default Overview;
+export default Home;

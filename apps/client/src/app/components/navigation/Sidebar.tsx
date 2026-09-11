@@ -1,13 +1,12 @@
 import { MiniProfile } from '@/app/features/users/MiniProfile';
 import { useNoteActions } from '@/app/hooks/use-note-action';
 import { cn } from '@/app/lib/utils';
-import { useLayoutStore } from '@/app/stores/layoutStore';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/shared/components/brand/Logo';
 import { Overlay } from '@/shared/components/Overlay';
 import { handleWait } from '@/shared/utils/handle-wait';
 import { waitVibrate } from '@/shared/utils/vibration';
-import { PanelLeftClose, PanelLeftOpen, Plus, PowerOff } from 'lucide-react';
+import { PanelLeftOpen, Plus, PowerOff } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { FileDropZone } from '../../features/notes/components/FileDropZone';
 import { tabLabel } from './label';
@@ -59,7 +58,7 @@ export const MobileSidebar = ({
               close?.();
               handleWait(openProfile, 240);
             }}
-            className="px-4 py-2 active:bg-muted dark:active:bg-card active:opacity-80"
+            className="px-4 py-2 active:bg-muted dark:active:bg-card active:opacity-80 text-foreground"
           />
 
           <div className="mx-4 mb-4 border-t border-sidebar-border dark:border-sidebar-border/50"></div>
@@ -73,18 +72,12 @@ export const MobileSidebar = ({
                     <button
                       onClick={close}
                       className={cn(
-                        isActive ? 'font-bold' : 'font-normal',
-                        'text-xl flex gap-5 px-6 py-3 items-center w-full active:bg-muted dark:active:bg-card text-sidebar-foreground'
+                        isActive ? 'font-semibold' : 'font-normal',
+                        'text-xl flex gap-5 px-6 py-3 items-center w-full active:bg-muted dark:active:bg-card text-foreground'
                       )}
                     >
-                      {t.label === 'Tags' ? (
-                        <t.icon className="size-6" />
-                      ) : (
-                        <t.icon
-                          className="size-6"
-                          weight={isActive ? 'fill' : 'bold'}
-                        />
-                      )}{' '}
+                      <t.icon className="size-6" />
+
                       {t.label}
                     </button>
                   )}
@@ -117,9 +110,7 @@ export const DesktopSidebar = ({
   width,
   ref,
   ...props
-}: SidebarProps & { width: number }) => {
-  const isOpenPanel = useLayoutStore((s) => s.isOpenPanel);
-  const toggleOpenPanel = useLayoutStore((s) => s.toggleOpenPanel);
+}: SidebarProps & { width?: number }) => {
   const { openNewNote, openCreateFromFile } = useNoteActions();
 
   return (
@@ -129,19 +120,18 @@ export const DesktopSidebar = ({
       ref={ref}
       className="fixed inset-y-0 z-20 hidden duration-260 ease-in-out border-r transition-all md:max-w-[64px] lg:max-w-75 text-sidebar-foreground bg-sidebar dark:bg-background md:block border-sidebar-border"
     >
+      <Logo />
       {/* subtle overlay */}
       <div className="absolute inset-0 hidden pointer-events-none bg-primary/2 dark:block -z-1"></div>
 
       <div className="items-center justify-between hidden w-full px-3 py-3 pr-2 lg:flex ">
-        {isOpenPanel && <Logo />}
         <Button
           title="Ctrl+T"
-          onClick={toggleOpenPanel}
           variant="ghost"
           size="icon-lg"
           className="text-sidebar-foreground/80"
         >
-          {isOpenPanel ? <PanelLeftClose /> : <PanelLeftOpen />}
+          <PanelLeftOpen />
         </Button>
       </div>
 
@@ -157,9 +147,7 @@ export const DesktopSidebar = ({
         {/* drag and drop file */}
         <div
           className={cn(
-            isOpenPanel
-              ? 'pointer-events-auto opacity-100 translate-x-0'
-              : 'pointer-events-none opacity-0 -translate-x-full',
+            'pointer-events-auto opacity-100 translate-x-0',
             'mt-4 transition overflow-hidden rounded-3xl bg-background/20'
           )}
         >
@@ -170,15 +158,13 @@ export const DesktopSidebar = ({
           <div className="flex justify-center w-full active:bg-muted">
             <Button
               onClick={openNewNote}
-              title={isOpenPanel ? '' : 'create new note'}
-              size="xl"
               variant="ghost"
               className="justify-center hidden w-full gap-6 overflow-hidden font-semibold rounded-full group lg:inline-flex"
             >
               <span className="p-1 transition-colors duration-300 rounded-full bg-secondary text-secondary-foreground group-hover:bg-primary group-hover:text-primary-foreground">
                 <Plus className="size-4" />
               </span>
-              {isOpenPanel ? 'New note' : null}
+              New note
             </Button>
           </div>
         </div>

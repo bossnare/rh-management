@@ -33,25 +33,9 @@
     @apply cursor-pointer touch-manipulation;
   }
 
-  /* util for disable transition logic on @/components/theme-provider.tsx */
+  /* util for disable transition logic in @/components/theme-provider.tsx */
   html.disable-transition * {
     transition: none !important;
-  }
-
-  #home-screen-icon {
-    animation: scale-bump 2s ease both infinite;
-  }
-
-  @keyframes scale-bump {
-    0% {
-      transform: scale(1);
-    }
-    100% {
-      transform: scale(0.9);
-    }
-    50% {
-      transform: scale(0.8);
-    }
   }
 }
 

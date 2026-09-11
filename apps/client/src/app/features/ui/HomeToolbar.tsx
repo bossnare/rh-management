@@ -26,7 +26,7 @@ type Props = {
   closeNoteSorting: () => void;
 };
 
-export function OverviewToolbar(props: Props) {
+export function HomeToolbar(props: Props) {
   const buttonSize = useButtonSize({ mobile: 'icon-lg', landscape: 'icon' });
   const isMobile = useIsMobile();
 

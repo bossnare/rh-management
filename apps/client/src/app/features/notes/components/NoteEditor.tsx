@@ -1,14 +1,8 @@
-import {
-  MAX_TOOLBAR_WIDTH,
-  MIN_TOOLBAR_WIDTH,
-} from '@/app/constants/layout.constant';
 import { useCreateNote, useUpdateNote } from '@/app/hooks/use-note';
-import { usePannel } from '@/app/hooks/use-pannel';
 import { dateFormatLong } from '@/app/lib/date-format';
 import { cn } from '@/app/lib/utils';
 import type { NoteInterface } from '@/app/types/note.type';
 import { Button } from '@/components/ui/button';
-import { useIsMobile } from '@/shared/hooks/use-mobile';
 import { useQueryToggle } from '@/shared/hooks/use-query-toggle';
 import { useToggle } from '@/shared/hooks/use-toggle';
 import { Portal } from '@radix-ui/react-portal';
@@ -21,15 +15,7 @@ import {
 } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { AxiosError } from 'axios';
-import {
-  Check,
-  ChevronLeft,
-  Ellipsis,
-  Redo2,
-  Type,
-  Undo2,
-  X,
-} from 'lucide-react';
+import { ChevronLeft, Redo2, Type, Undo2, X } from 'lucide-react';
 import { AnimatePresence, motion, useInView } from 'motion/react';
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -38,7 +24,6 @@ import { ConfirmDialog } from '../../ui/ConfirmDialog';
 import { ConfirmDrawer } from '../../ui/ConfirmDrawer';
 import { EditorToolbarButton } from './EditorToolbarButton';
 import { EditorToolbar } from './EditorToolbar';
-import { useIsDesktop } from '@/shared/hooks/use-desktop';
 import { useAutoSave } from '@/app/hooks/use-auto-save';
 
 type NoteEditorProps = React.HTMLAttributes<HTMLDivElement> & {
@@ -113,12 +98,8 @@ export const NoteEditor = ({
     close: closeDirtyConfirm,
   } = useQueryToggle({ key: 'ui', value: 'isDirty' });
 
-  // use mutation
   const createNote = useCreateNote();
   const updateNote = useUpdateNote();
-
-  const isMobile = useIsMobile();
-  const isDesktop = useIsDesktop();
   const navigate = useNavigate();
   const [params] = useSearchParams();
 
@@ -216,15 +197,6 @@ export const NoteEditor = ({
     setFalse: setIsOpenPanelFalse,
     setTrue: setIsOpenPanel,
   } = useToggle(true);
-
-  const { pannelWidth: TOOLBAR_WIDTH, mainTransform: MAIN_TRANSFORM } =
-    usePannel(isOpenPanel, MIN_TOOLBAR_WIDTH, MAX_TOOLBAR_WIDTH);
-
-  // auto-collapse
-  // useEffect(() => {
-  //   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-  //   isDesktop ? setIsOpenPanel() : setIsOpenPanelFalse();
-  // }, [isDesktop, setIsOpenPanel, setIsOpenPanelFalse]);
 
   const isDirty = useMemo(() => {
     if (!initial) return false;
@@ -351,10 +323,7 @@ export const NoteEditor = ({
         className={cn('min-h-screen relative', className)}
       >
         <Portal>
-          <aside
-            style={{ width: TOOLBAR_WIDTH }}
-            className="fixed inset-y-0 left-0 hidden md:block md:max-w-[54px] lg:max-w-54 lg:transition duration-600 border border-sidebar-border dark:border-0"
-          >
+          <aside className="fixed inset-y-0 left-0 hidden md:block md:max-w-[54px] lg:max-w-54 lg:transition duration-600 border border-sidebar-border dark:border-0">
             <EditorToolbar
               isOpen={isOpenPanel}
               toggleOpen={toggleOpenPanel}
@@ -376,17 +345,13 @@ export const NoteEditor = ({
           </aside>
         </Portal>
         {/* editor */}
-        <div
-          style={!isMobile ? MAIN_TRANSFORM : { width: '100vw' }}
-          className="flex flex-col lg:transition-transform lg:duration-600"
-        >
+        <div className="flex flex-col lg:transition-transform lg:duration-600">
           <header className="sticky top-0 left-0 z-10 bg-background">
             <div className="flex items-center justify-between gap-10 h-12 max-w-6xl px-0 pr-2 mx-auto md:px-4">
               <Button
                 onClick={handleCancel}
                 variant="ghost"
                 className="md:hidden h-full! w-14! rounded-none"
-                size="icon-xl"
               >
                 <ChevronLeft />
               </Button>

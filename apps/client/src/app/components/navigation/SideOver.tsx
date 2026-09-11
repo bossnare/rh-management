@@ -3,7 +3,6 @@ import { useUserActions } from '@/app/hooks/use-user-action';
 import { cn } from '@/app/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { supabase } from '@/shared/services/supabase.service';
 import { handleWait } from '@/shared/utils/handle-wait';
 import { X } from 'lucide-react';
 import { Overlay } from '../../../shared/components/Overlay';
@@ -66,12 +65,7 @@ export const SideOver = ({
               ))}
             </>
             <div className="w-full mt-auto">
-              <Button
-                onClick={async () => await supabase.auth.signOut()}
-                size="lg"
-                variant="outline"
-                className="w-full"
-              >
+              <Button size="lg" variant="outline" className="w-full">
                 Log out
               </Button>
             </div>

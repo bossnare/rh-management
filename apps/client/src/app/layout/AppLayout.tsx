@@ -7,13 +7,6 @@ import {
 import { SideOver } from '@/app/components/navigation/SideOver';
 import { TopBar } from '@/app/components/navigation/TopBar';
 import PullToRefreshWrapper from '@/app/components/pull-to-refresh';
-import {
-  MAX_PANEL_WIDTH,
-  MIN_PANEL_WIDTH,
-} from '@/app/constants/layout.constant';
-import { useLayoutStore } from '@/app/stores/layoutStore';
-import { useIsDesktop } from '@/shared/hooks/use-desktop';
-import { useIsMobile } from '@/shared/hooks/use-mobile';
 import { useQueryToggle } from '@/shared/hooks/use-query-toggle';
 import { fabButtonVariants } from '@/shared/motions/motion.variant';
 import { useQueryClient } from '@tanstack/react-query';
@@ -22,18 +15,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { ButtonFab } from '../features/notes/ButtonFab';
 import { OptionDrawer } from '../features/ui/OptionDrawer';
-import { usePannel } from '../hooks/use-pannel';
 import { ConfirmDrawer } from '../features/ui/ConfirmDrawer';
 import { ConfirmDialog } from '../features/ui/ConfirmDialog';
-import { AuthService } from '@/shared/services/supabase.service';
 import { OptionDialog } from '../features/ui/OptionDialog';
 
 export function AppLayout() {
-  // store state
-  const isOpenPanel = useLayoutStore((s) => s.isOpenPanel);
-  const setIsOpenPanel = useLayoutStore((s) => s.setIsOpenPanel);
-  const appLoading = useLayoutStore((s) => s.appLoading);
-
   const queryClient = useQueryClient();
   const handleRefreshNotes = () =>
     queryClient.refetchQueries({
@@ -83,23 +69,8 @@ export function AppLayout() {
   // local state
   const [mobileSidebarWidth, setMobileSidebarWidth] = useState(0);
   const mobileSidebarRef = useRef<HTMLDivElement | null>(null);
-  const isMobile = useIsMobile();
-  const isDesktop = useIsDesktop(); // >= lg
 
   const { pathname } = useLocation();
-
-  //  reactive main width
-  const { pannelWidth: SIDEBAR_WIDTH, mainTransform: MAIN_DESKTOP_TRANSFORM } =
-    usePannel(isOpenPanel, MIN_PANEL_WIDTH, MAX_PANEL_WIDTH);
-
-  // main transform style breakpoint
-  const MAIN_TRANSFORM = !isMobile
-    ? MAIN_DESKTOP_TRANSFORM
-    : {
-        transform: isOpenMobileSidebar
-          ? `translateX(${mobileSidebarWidth}px)`
-          : 'translateX(0)',
-      };
 
   useEffect(() => {
     // get mobile sidebar width
@@ -109,15 +80,6 @@ export function AppLayout() {
       );
     }
   }, []);
-
-  // auto-collapsed sidebar
-  // useEffect(() => {
-  //   if (!isMobile) navigate(-1);
-  // }, [isMobile, openMobileSidebar, navigate]);
-
-  useEffect(() => {
-    setIsOpenPanel(isDesktop);
-  }, [isDesktop, setIsOpenPanel]);
 
   const logoutConfirm = {
     title: 'Log Out ?',
@@ -138,7 +100,7 @@ export function AppLayout() {
         description={logoutConfirm.description}
         cancelLabel={logoutConfirm.cancelLabel}
         confirmLabel={logoutConfirm.confirmLabel}
-        onConfirm={AuthService.signOut}
+        // onConfirm={}
       />
       <ConfirmDialog
         showOn="desktop"
@@ -148,14 +110,14 @@ export function AppLayout() {
         description={logoutConfirm.description}
         cancelLabel={logoutConfirm.cancelLabel}
         confirmLabel={logoutConfirm.confirmLabel}
-        onConfirm={AuthService.signOut}
+        // onConfirm={}
       />
 
       <div className="relative overflow-hidden">
         {/* loading state on big route change */}
-        <AppLoader open={appLoading} />
+        <AppLoader />
         {/* desktop sidebar */}
-        <DesktopSidebar width={SIDEBAR_WIDTH} />
+        <DesktopSidebar />
         {/* mobile sidebar  */}
         <MobileSidebar
           open={isOpenMobileSidebar}
@@ -164,10 +126,7 @@ export function AppLayout() {
           ref={mobileSidebarRef}
         />{' '}
         {/* main content */}
-        <div
-          style={MAIN_TRANSFORM}
-          className="relative transition-transform ease-in-out duration-280 will-change-transform md:duration-260"
-        >
+        <div className="relative transition-transform ease-in-out duration-280 will-change-transform md:duration-260">
           <TopBar
             openSideOver={openSideOver}
             openCreateOptions={openCreateOptions}

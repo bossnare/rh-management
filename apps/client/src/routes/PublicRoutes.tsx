@@ -1,14 +1,13 @@
-import type { Session } from '@supabase/supabase-js';
-import { Navigate, Outlet } from 'react-router-dom';
+// import { Navigate, Outlet } from 'react-router-dom';
 
-export const PublicRoutes = ({ session }: { session: Session | null }) => {
-  if (process.env.NODE_ENV === 'production') {
-    if (session) {
-      return <Navigate to="/app" replace />;
-    }
+// export const PublicRoutes = ({ session }: { session: Session | null }) => {
+//   if (process.env.NODE_ENV === 'production') {
+//     if (session) {
+//       return <Navigate to="/app" replace />;
+//     }
 
-    return <Outlet />;
-  } else {
-    return <Outlet />;
-  }
-};
+//     return <Outlet />;
+//   } else {
+//     return <Outlet />;
+//   }
+// };

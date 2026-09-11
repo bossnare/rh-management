@@ -1,10 +1,10 @@
 import { UserAvatar } from '@/app/features/users/UserAvatar';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/shared/components/brand/Logo';
-import { useAuth } from '@/shared/hooks/use-auth';
+// import { useAuth } from '@/shared/hooks/use-auth';
 import { useQueryToggle } from '@/shared/hooks/use-query-toggle';
 import { waitVibrate } from '@/shared/utils/vibration';
-import { Plus, Search, TextAlignJustify, TriangleAlert } from 'lucide-react';
+import { Plus, Search, TextAlignJustify } from 'lucide-react';
 import { AnimatePresence } from 'motion/react';
 import { useId } from 'react';
 import { KebabMenu } from './KebabMenu';
@@ -18,7 +18,7 @@ export const TopBar = ({
   openCreateOptions: () => void;
 }) => {
   const inputId = useId();
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const { data: userData } = useUser();
 
   const { open: openMobileSidebar } = useQueryToggle({
@@ -52,7 +52,7 @@ export const TopBar = ({
         </Button>
       </div>
 
-      <Logo className="md:hidden" />
+      <Logo n className="md:hidden" />
 
       {/* desktop navigation */}
       <div className="hidden h-10 py-1 px-3 rounded-full bg-input gap-2 md:inline-flex md:w-[50%] lg:w-[36%] items-center shrink-0">
@@ -81,19 +81,12 @@ export const TopBar = ({
         <div
           role="button"
           onClick={openSideOver}
-          title={user?.user_metadata.name.split('(')[0]}
           className="relative hidden cursor-pointer size-8 md:block active:bg-input md:hover:bg-input active:opacity-70"
         >
           <UserAvatar
             user={userData}
             className="size-full bg-input outline-offset-1 outline outline-input"
           />
-          {/* badge */}
-          {user && !user.user_metadata.email_verified && (
-            <span className="absolute p-1 bg-yellow-200 rounded-full -top-1 -right-1">
-              <TriangleAlert className="text-yellow-600 size-4" />
-            </span>
-          )}
         </div>
         {/* mobile navigation tab */}
         <AnimatePresence>
