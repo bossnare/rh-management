@@ -4,7 +4,7 @@ import { AppLayout } from '@/app/layout/AppLayout';
 
 export const router = createBrowserRouter([
   // {
-  //   path: '/',
+  //   path: '/index',
   //   element: <div>Loading...</div>,
   // },
   {
